@@ -95,7 +95,7 @@ WSGI app object.
         start_response("302 Found", headers)
         return ["message added"]
 
-    def delete_message(self, environ, start_response):
+    def del_message(self, environ, start_response):
         print environ['wsgi.input']
         form = cgi.FieldStorage(fp=environ['wsgi.input'], environ=environ)
 
