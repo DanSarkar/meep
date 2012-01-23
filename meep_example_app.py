@@ -2,8 +2,6 @@ import meeplib
 import traceback
 import cgi
 
-#Updated for HW1 8:15 Jan16
-
 def initialize():
     # create a default user
     u = meeplib.User('test', 'foo')
@@ -59,12 +57,13 @@ WSGI app object.
 
         s = []
         for m in messages:
-            s.append('id: %d<p>' % (m.id,))
+            s.append('id: %d<p>' % (m.id))
             s.append('title: %s<p>' % (m.title))
             s.append('message: %s<p>' % (m.post))
             s.append('author: %s<p>' % (m.author.username))
-            s.append('<form action="delete_action" method="POST"><input type="hidden" name="messageID" value="%d"><input type="submit" value="Delete Message"></form>' % (m.id))
+            s.append('<form action="delete_message" method="POST"><input type="hidden" name="id" value="%d"><input type="submit" value="Delete Message"></form>' % (m.id))
             s.append('<hr>')
+
         s.append("<a href='../../'>index</a>")
             
         headers = [('Content-type', 'text/html')]
@@ -96,21 +95,22 @@ WSGI app object.
         start_response("302 Found", headers)
         return ["message added"]
 
-    def delete_action(self, environ, start_response):
+    def delet_message(self, environ, start_response):
         print environ['wsgi.input']
         form = cgi.FieldStorage(fp=environ['wsgi.input'], environ=environ)
 
-        id = form['messageID'].value
-        message = meeplib.get_message(int(id))
+        # Get the message id from form, convert to int
+        id = form['id'].value
+        message_id = int(id)
+
+        # Get message using built in function, delete the message
+        message = meeplib.get_message(message_id)
         meeplib.delete_message(message)
-                     
+
         headers = [('Content-type', 'text/html')]
         headers.append(('Location', '/m/list'))
         start_response("302 Found", headers)
         return ["message deleted"]
-        
-
-        
     
     def __call__(self, environ, start_response):
         # store url/function matches in call_dict
@@ -120,7 +120,7 @@ WSGI app object.
                       '/m/list': self.list_messages,
                       '/m/add': self.add_message,
                       '/m/add_action': self.add_message_action,
-                      '/m/delete_action': self.delete_action
+                      '/m/delete_message': self.delete_message
                       }
 
         # see if the URL is in 'call_dict'; if it is, call that function.
