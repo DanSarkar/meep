@@ -4,7 +4,7 @@ import meeplib
 # note:
 #
 # functions start within test_ are discovered and run
-#       between setUp and tearDown;
+# between setUp and tearDown;
 # setUp and tearDown are run *once* for *each* test_ function.
 
 class TestMeepLib(unittest.TestCase):
@@ -42,3 +42,5 @@ class TestMeepLib(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
