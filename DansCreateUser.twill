@@ -1,0 +1,11 @@
+
+go http://localhost:8000/
+follow "here"
+
+fv 1 username 'DanstwillFoo'
+fv 1 password 'bar123'
+fv 1 password_confirm 'bar123'
+submit
+
+url /
+find 'DanstwillFoo'
