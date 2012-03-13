@@ -1,0 +1,9 @@
+go http://localhost:8000/
+follow 'Log in'
+fv 1 username 'DanSarkar'
+fv 1 password '567test123'
+submit
+
+code 200
+
+find 'DanSarkar'
